@@ -1,6 +1,6 @@
 # COVID-19-Classification
 
-## 🎯 Project Overview
+## Project Overview
 
 This project develops a machine learning model to predict COVID-19 infection based on self-reported symptoms and risk factors. Using a decision tree classifier, the model analyzes 20 different features including symptoms (fever, dry cough, breathing problems) and behavioral risk factors (travel history, large gatherings, mask wearing) to determine the likelihood of a positive COVID-19 test.
 
@@ -11,7 +11,7 @@ This project develops a machine learning model to predict COVID-19 infection bas
 - 94.29% accuracy on test data
 - Balanced dataset handling for unbiased predictions
 
-## 📊 Dataset
+## Dataset
 
 - **Size:** 5,434 observations
 - **Features:** 20 input features + 1 target variable
@@ -36,7 +36,7 @@ This project develops a machine learning model to predict COVID-19 infection bas
 - Wearing masks
 - Sanitization practices
 
-## 🔧 Technical Stack
+## Technical Stack
 
 - **Language:** R
 - **Core Libraries:** 
@@ -46,7 +46,7 @@ This project develops a machine learning model to predict COVID-19 infection bas
   - Visualization: ggplot2, rpart.plot
   - Model Evaluation: caret confusion matrix
 
-## 🌳 Model Architecture
+## Model Architecture
 
 ### Decision Tree Classifier
 - **Algorithm:** Decision Tree (rpart package)
@@ -61,7 +61,7 @@ This project develops a machine learning model to predict COVID-19 infection bas
 - **Effective pattern recognition:** Captures complex relationships between symptoms
 - **Clinical relevance:** Mirrors diagnostic decision-making process
 
-## 📈 Results
+## Results
 
 ### Model Performance
 - **Overall Accuracy:** 94.29%
@@ -80,7 +80,7 @@ This project develops a machine learning model to predict COVID-19 infection bas
 - **False Positives:** 0 (no false alarms)
 - **False Negatives:** 120 (missed positive cases)
 
-## 🔍 Feature Importance & Decision Paths
+## Feature Importance & Decision Paths
 
 ### Most Important Features (in order):
 1. **Travel Abroad** - Primary decision node (early pandemic indicator)
@@ -98,7 +98,7 @@ Root: Travel Abroad?
     └── No → Symptom-based evaluation
 ```
 
-## 🎯 Key Findings
+## Key Findings
 
 ### Clinical Insights
 - **Travel history** was the strongest predictor during early pandemic phases
@@ -112,7 +112,7 @@ Root: Travel Abroad?
 - **Perfect negative classification** shows strong ability to rule out COVID-19
 - **High statistical significance** confirms robust pattern recognition
 
-## ⚠️ Important Disclaimers
+## Important Disclaimers
 
 **This model is for educational and research purposes only. It should NOT be used for medical diagnosis or replace professional medical consultation.**
 
@@ -129,7 +129,7 @@ Root: Travel Abroad?
 - Potential for health anxiety if used inappropriately
 - Privacy considerations for health data
 
-## 📚 Technical Details
+## Technical Details
 
 ### Data Preprocessing
 - **Class imbalance handling:** Under-sampling majority class
@@ -142,7 +142,7 @@ Root: Travel Abroad?
 - **Hyperparameter tuning:** Optimized tree depth and criteria
 - **Statistical testing:** Confirmed significance of results
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 - Integration with current COVID-19 variant symptoms
 - Addition of demographic features (age, gender, location)
@@ -150,7 +150,7 @@ Root: Travel Abroad?
 - Real-time symptom tracking interface
 - Integration with health monitoring devices
 
-## 📚 References
+## References
 
 1. WHO COVID-19 Symptom Guidelines
 2. CDC COVID-19 Risk Factors Documentation
