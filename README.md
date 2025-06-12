@@ -38,20 +38,22 @@ This project develops a machine learning model to predict COVID-19 infection bas
 
 ## 🔧 Technical Stack
 
-- **Language:** Python 3.8+
+- **Language:** R
 - **Core Libraries:** 
-  - Data Processing: Pandas, NumPy
-  - Visualization: Matplotlib, Seaborn
-  - Machine Learning: Scikit-learn
-  - Model Evaluation: Classification metrics, Confusion matrix
+  - Data Processing: dplyr
+  - Machine Learning: rpart, caret
+  - Data Splitting: caTools
+  - Visualization: ggplot2, rpart.plot
+  - Model Evaluation: caret confusion matrix
 
 ## 🌳 Model Architecture
 
 ### Decision Tree Classifier
-- **Algorithm:** Decision Tree (Scikit-learn)
+- **Algorithm:** Decision Tree (rpart package)
 - **Max Depth:** 5 (optimized for best performance)
 - **Criterion:** Gini impurity
 - **Data Handling:** Under-sampling of majority class for balance
+- **Visualization:** Tree plots with rpart.plot
 
 ### Why Decision Tree?
 - **Perfect fit for binary categorical data:** All features are Yes/No responses
@@ -150,8 +152,7 @@ Root: Travel Abroad?
 
 ## 📚 References
 
-1. Original Kaggle Dataset: "Symptoms COVID-19 using 7 Machine Learning 98%"
-2. WHO COVID-19 Symptom Guidelines
-3. CDC COVID-19 Risk Factors Documentation
-4. Early COVID-19 Symptom Research Papers
+1. WHO COVID-19 Symptom Guidelines
+2. CDC COVID-19 Risk Factors Documentation
+3. Early COVID-19 Symptom Research Papers
 
