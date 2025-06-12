@@ -1,0 +1,117 @@
+---
+title: "COVID-19 Classification"
+output:
+  html_document:
+    df_print: paged
+  html_notebook: default
+---
+
+# Loading libraries
+```{r}
+library(dplyr)
+library(caret)
+library(RANN)
+library(rpart)
+library(rpart.plot)
+library(caTools)
+library(ggplot2)
+```
+
+
+# Loading the dataset
+```{r}
+covid <- read.csv("~/Downloads/Covid Dataset.csv")
+```
+
+# EDA
+```{r}
+head(covid)
+str(covid)
+summary(covid)
+colnames(covid)
+sum(is.na(covid)) # no missing values
+```
+
+
+# Initial visualizations
+```{r}
+ggplot(covid, aes(x = COVID.19, fill = Breathing.Problem)) + geom_bar(position = "dodge") + labs(title = "Relationship Between Breathing Problem and COVID-19 Status", x = "COVID-19 Status", y = "Count") + theme_minimal()
+ggplot(covid, aes(x = COVID.19, fill = Contact.with.COVID.Patient)) + geom_bar(position = "dodge") + labs(title = "Contact with COVID Patient and COVID-19 Status", x = "COVID-19 Status", y = "Count") + theme_minimal()
+ggplot(covid, aes(x = COVID.19, fill = Visited.Public.Exposed.Places)) + geom_bar(position = "dodge") + labs(title = "Visited Public Exposed Places and COVID-19 Status", x = "COVID-19 Status", y = "Count") + theme_minimal()
+ggplot(covid, aes(x = COVID.19, fill = Wearing.Masks)) + geom_bar(position = "dodge") + labs(title = "Wearing Masks and COVID-19 Status", x = "COVID-19 Status", y = "Count") + theme_minimal()
+ggplot(covid, aes(x = COVID.19, fill = Fever)) + geom_bar(position = "dodge") + labs(title = "Relationship Between Fever and COVID-19 Status", x = "COVID-19 Status", y = "Count") + theme_minimal()
+ggplot(covid, aes(x = COVID.19, fill = Headache)) + geom_histogram(stat = "count", position = "dodge") + labs(title = "Distribution of Headache Across COVID-19 Status", x = "COVID-19 Status", y = "Count") + theme_minimal()
+ggplot(covid, aes(x=COVID.19, fill=Asthma)) + geom_bar(position = "dodge") + labs(title = "Relationship between Asthma and COVID-19 Status", x = "COVID-19 Status", y = "Count") + theme_minimal()
+
+asthma_pie <- covid %>% count(Asthma) %>% mutate(percentage = n / sum(n) * 100)
+ggplot(asthma_pie, aes(x = "", y = percentage, fill = Asthma)) + geom_col() + coord_polar(theta = "y") + labs(title = "Distribution of Asthma in the Dataset", fill = "Asthma") + theme_void()
+
+sanitization_pie <- covid %>% count(COVID.19, Sanitization.from.Market) %>% group_by(COVID.19) %>% mutate(percentage = n / sum(n) * 100)
+ggplot(sanitization_pie, aes(x = "", y = percentage, fill = Sanitization.from.Market)) + geom_col() + coord_polar(theta = "y") + facet_wrap(~ COVID.19) + labs(title = "Sanitization Practices by COVID-19 Status", fill = "Sanitization from Market") + theme_void()
+
+ggplot(covid, aes(x=COVID.19)) + geom_bar() + labs(title="Distribution of COVID-19 In This Dataset", x="COVID-19 Status", y="Count") + theme_minimal()
+
+```
+
+
+# Re-balancing the data by under sampling the majority class, i.e. reducing the number of Yes's to match the number of No's
+```{r}
+covid_no <- covid[covid$COVID.19 == "No", ]
+covid_yes <- covid[covid$COVID.19 == "Yes", ]
+covid_balanced <- rbind(covid_no, covid_yes[sample(1:nrow(covid_yes), nrow(covid_no)), ])
+
+ggplot(covid_balanced, aes(x=COVID.19)) + geom_bar() + labs(title="Distribution of COVID-19 In This Dataset", x="COVID-19 Status", y="Count") + theme_minimal()
+
+```
+
+
+# Building the model
+```{r}
+covid_balanced$COVID.19 <- as.factor(covid_balanced$COVID.19)
+
+set.seed(123)
+sample = sample.split(covid_balanced$COVID.19, SplitRatio = 0.80)
+train = subset(covid_balanced, sample=TRUE)
+test = subset(covid_balanced, sample=FALSE)
+```
+
+# Building decision tree
+```{r}
+options(repr.plot.width = 10, repr.plot.height = 10)
+covid_tree <- rpart(COVID.19 ~., cp=0.001, maxdepth=5, data=covid_balanced)
+
+```
+
+
+# Visualizing the model
+```{r}
+prp(covid_tree, space=4, split.cex=1.2, nn.border.col=0)
+```
+
+# Analyzing model performance
+```{r}
+covid_predictions <- predict(covid_tree, test, type="class")
+confusionMatrix(covid_predictions, test$COVID.19)
+```
+
+
+# Extracting feature importance from the decision tree
+```{r}
+importance <- as.data.frame(varImp(covid_tree))
+importance$Feature <- rownames(importance)
+rownames(importance) <- NULL
+colnames(importance)[1] <- "Importance"
+```
+
+# Visualizing feature importance
+```{r}
+ggplot(importance, aes(x = reorder(Feature, Importance), y = Importance)) + geom_bar(stat = "identity", fill = "steelblue") + coord_flip() + labs(title = "Feature Importance in Predicting COVID-19", x = "Features", y = "Importance") + theme_minimal()
+```
+
+
+
+
+
+
+
+
