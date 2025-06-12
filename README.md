@@ -13,14 +13,11 @@ This project develops a machine learning model to predict COVID-19 infection bas
 
 ## 📊 Dataset
 
-- **Source:** Crowdsourced COVID-19 Symptom Dataset (Kaggle)*
 - **Size:** 5,434 observations
 - **Features:** 20 input features + 1 target variable
 - **Data Type:** Binary categorical (Yes/No) for all features
 - **Collection Period:** Early COVID-19 pandemic phase
 - **Split:** 80% training, 20% testing
-
-*Note: Dataset link updated due to original removal - current version is a verified copy*
 
 ### Key Features Categories
 
